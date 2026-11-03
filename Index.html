@@ -1,0 +1,428 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Seminário de Estruturas de Dados da Equipe 2: Busca Binária, Quick Sort, Shell Sort e Selection Sort.">
+<title>Algoritmos de Busca e Ordenação | Equipe 2</title>
+<script>document.documentElement.classList.add('js')</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend:wght@300..800&display=swap">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Ctext y=%22.9em%22 font-size=%2290%22%3E%F0%9F%94%8E%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<svg class="sprite" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="i-prev" viewBox="0 0 24 24"><path d="M14.5 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-play" viewBox="0 0 24 24"><path d="M8 5.5v13l10-6.5Z" fill="currentColor"/></symbol>
+    <symbol id="i-pause" viewBox="0 0 24 24"><path d="M8.5 5.5v13M15.5 5.5v13" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></symbol>
+    <symbol id="i-reset" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 12a7.5 7.5 0 1 0 2.2-5.3"/><path d="M4.5 4.5v4h4"/></g></symbol>
+    <symbol id="i-alert" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3.5 2.5 20h19Z"/><path d="M12 10v4.5"/></g><circle cx="12" cy="17.2" r="1.1" fill="currentColor"/></symbol>
+    <symbol id="i-expand" viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <!-- Ícones dos algoritmos -->
+    <symbol id="g-binary" viewBox="0 0 80 44"><g fill="currentColor" opacity=".25"><rect x="4" y="32" width="8" height="10" rx="2"/><rect x="15" y="28" width="8" height="14" rx="2"/><rect x="26" y="24" width="8" height="18" rx="2"/></g><rect x="37" y="20" width="8" height="22" rx="2" fill="currentColor"/><g fill="none" stroke="currentColor" stroke-width="1.6"><rect x="48.8" y="16.8" width="6.4" height="24.4" rx="1.6"/><rect x="59.8" y="12.8" width="6.4" height="28.4" rx="1.6"/><rect x="70.8" y="8.8" width="6.4" height="32.4" rx="1.6"/></g><path d="M41 15l-3.5-5h7z" fill="currentColor"/></symbol>
+    <symbol id="g-quick" viewBox="0 0 80 44"><g fill="none" stroke="currentColor" stroke-width="1.6"><rect x="4.8" y="28.8" width="6.4" height="12.4" rx="1.6"/><rect x="15.8" y="32.8" width="6.4" height="8.4" rx="1.6"/><rect x="26.8" y="24.8" width="6.4" height="16.4" rx="1.6"/><rect x="48.8" y="12.8" width="6.4" height="28.4" rx="1.6"/><rect x="59.8" y="16.8" width="6.4" height="24.4" rx="1.6"/><rect x="70.8" y="8.8" width="6.4" height="32.4" rx="1.6"/></g><rect x="37" y="18" width="8" height="24" rx="2" fill="currentColor"/><path d="M41 13l-3.5-5h7z" fill="currentColor"/></symbol>
+    <symbol id="g-shell" viewBox="0 0 80 44"><g fill="none" stroke="currentColor" stroke-width="1.6"><rect x="26.8" y="30.8" width="6.4" height="10.4" rx="1.6"/><rect x="37.8" y="16.8" width="6.4" height="24.4" rx="1.6"/><rect x="70.8" y="18.8" width="6.4" height="22.4" rx="1.6"/></g><g fill="currentColor"><rect x="4" y="26" width="8" height="16" rx="2"/><rect x="48" y="24" width="8" height="18" rx="2"/></g><g fill="currentColor" opacity=".45"><rect x="15" y="20" width="8" height="22" rx="2"/><rect x="59" y="28" width="8" height="14" rx="2"/></g><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M8 22C8 6 52 6 52 20"/><path d="M19 16C19 1 63 1 63 24" opacity=".55"/></g></symbol>
+    <symbol id="g-select" viewBox="0 0 80 44"><rect x="4" y="32" width="8" height="10" rx="2" fill="currentColor"/><g fill="none" stroke="currentColor" stroke-width="1.6"><rect x="17.8" y="12.8" width="6.4" height="28.4" rx="1.6" stroke-dasharray="3 2.4"/><rect x="30.8" y="20.8" width="6.4" height="20.4" rx="1.6"/><rect x="56.8" y="8.8" width="6.4" height="32.4" rx="1.6"/><rect x="69.8" y="16.8" width="6.4" height="24.4" rx="1.6"/></g><rect x="43" y="28" width="8" height="14" rx="2" fill="currentColor" opacity=".55"/><path d="M47 24C47 3 21 3 21 7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M21 11l-3.2-4.6h6.4z" fill="currentColor"/></symbol>
+    <!-- Curvas de crescimento -->
+    <symbol id="c-1" viewBox="0 0 60 36"><path d="M5 3v29h52" fill="none" stroke="currentColor" stroke-opacity=".3" stroke-width="1.5"/><path d="M8 24h47" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></symbol>
+    <symbol id="c-log" viewBox="0 0 60 36"><path d="M5 3v29h52" fill="none" stroke="currentColor" stroke-opacity=".3" stroke-width="1.5"/><path d="M8 30C10 17 20 12 55 9" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></symbol>
+    <symbol id="c-nlog" viewBox="0 0 60 36"><path d="M5 3v29h52" fill="none" stroke="currentColor" stroke-opacity=".3" stroke-width="1.5"/><path d="M8 30C25 27 40 20 55 8" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></symbol>
+    <symbol id="c-n2" viewBox="0 0 60 36"><path d="M5 3v29h52" fill="none" stroke="currentColor" stroke-opacity=".3" stroke-width="1.5"/><path d="M8 30C30 29 46 21 55 3" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></symbol>
+    <symbol id="c-band" viewBox="0 0 60 36"><path d="M5 3v29h52" fill="none" stroke="currentColor" stroke-opacity=".3" stroke-width="1.5"/><path d="M8 30C25 27 40 20 55 8L55 3C46 21 30 29 8 30Z" fill="currentColor" fill-opacity=".25"/><path d="M8 30C25 27 40 20 55 8M8 30C30 29 46 21 55 3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+  </defs>
+</svg>
+
+<div class="progress" aria-hidden="true"><span></span></div>
+<nav class="dots" aria-label="Slides">
+  <button type="button" class="fs-btn" hidden aria-label="Tela cheia" aria-pressed="false"><svg aria-hidden="true"><use href="#i-expand"/></svg></button>
+</nav>
+
+<main>
+
+<!-- 01 Abertura -->
+<section class="slide cover" id="abertura" data-label="Abertura" style="--acc:var(--cyan)" aria-labelledby="t-abertura">
+  <div class="stage">
+    <canvas class="sphere" aria-hidden="true"></canvas>
+    <div class="frame">
+      <div class="topbar"><span>01/12</span></div>
+      <div class="body cover-body">
+        <h1 class="display" id="t-abertura">Algoritmos<br>de Busca e<br>Ordenação</h1>
+        <p class="cover-sub">Estruturas de Dados</p>
+        <dl class="cover-meta">
+          <div><dt>Equipe</dt><dd>2</dd></div>
+          <div><dt>Data</dt><dd>04/11/2026</dd></div>
+        </dl>
+        <p class="cover-team">Marcos, Wesley, José Igor, Pablo, Matheus e Victória</p>
+        <p class="hint"><kbd>←</kbd><kbd>→</kbd><span>avançam os slides e os passos dos exemplos</span></p>
+      </div>
+      <footer class="foot"><span>Estruturas de Dados</span><span>Equipe 2</span><span>04/11/2026</span></footer>
+    </div>
+  </div>
+</section>
+
+<!-- 02 Introdução -->
+<section class="slide" id="introducao" data-label="Introdução" style="--acc:var(--cyan)" aria-labelledby="t-intro">
+  <div class="stage"><div class="frame">
+    <div class="topbar"><span>02/12</span></div>
+    <div class="body">
+      <header class="intro-head">
+        <h2 class="title" id="t-intro">O que vamos ver</h2>
+        <p class="lead">Dois problemas clássicos: encontrar um elemento e colocar uma lista em ordem.</p>
+      </header>
+      <div class="agenda">
+        <div>
+          <p class="agenda-kind"><b>Busca</b>encontrar</p>
+          <a class="algo-card" href="#busca-binaria" style="--acc:var(--cyan)">
+            <svg class="glyph" aria-hidden="true"><use href="#g-binary"/></svg>
+            <h3>Busca Binária</h3>
+            <p>Corta o espaço de busca pela metade a cada passo.</p>
+            <span class="who"><span class="avatars"><span class="avatar">W</span></span>Wesley</span>
+            <span class="slides-ref">Slides 3 e 4</span>
+          </a>
+        </div>
+        <div>
+          <p class="agenda-kind"><b>Ordenação</b>organizar</p>
+          <div class="cards">
+            <a class="algo-card" href="#quick-sort" style="--acc:var(--green)">
+              <svg class="glyph" aria-hidden="true"><use href="#g-quick"/></svg>
+              <h3>Quick Sort</h3>
+              <p>Divide a lista em torno de um pivô.</p>
+              <span class="who"><span class="avatars"><span class="avatar">J</span><span class="avatar">P</span></span>José Igor e Pablo</span>
+              <span class="slides-ref">Slides 5 e 6</span>
+            </a>
+            <a class="algo-card" href="#shell-sort" style="--acc:var(--purple)">
+              <svg class="glyph" aria-hidden="true"><use href="#g-shell"/></svg>
+              <h3>Shell Sort</h3>
+              <p>Ordena por intervalos que vão diminuindo.</p>
+              <span class="who"><span class="avatars"><span class="avatar">M</span></span>Matheus</span>
+              <span class="slides-ref">Slides 7 e 8</span>
+            </a>
+            <a class="algo-card" href="#selection-sort" style="--acc:var(--pink)">
+              <svg class="glyph" aria-hidden="true"><use href="#g-select"/></svg>
+              <h3>Selection Sort</h3>
+              <p>Seleciona o menor e coloca no lugar certo.</p>
+              <span class="who"><span class="avatars"><span class="avatar">V</span></span>Victória</span>
+              <span class="slides-ref">Slides 9 e 10</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <footer class="foot"><span>Estruturas de Dados <b>Introdução</b></span><span>Equipe 2</span><span>04/11/2026</span></footer>
+  </div></div>
+</section>
+
+<!-- 03 Busca Binária (teoria) -->
+<section class="slide theory" id="busca-binaria" data-label="Busca Binária" style="--acc:var(--cyan)" aria-labelledby="t-bb">
+  <div class="stage"><div class="frame">
+    <div class="topbar"><span>03/12</span></div>
+    <div class="body">
+      <header class="t-head">
+        <h2 class="title t-title" id="t-bb">Busca Binária</h2>
+        <p class="presenter"><span class="avatars"><span class="avatar">W</span></span><span>Integrante: <b>Wesley</b></span></p>
+      </header>
+      <div class="t-main">
+        <div>
+          <h3 class="lbl">O que é?</h3>
+          <p class="what">Algoritmo utilizado para encontrar um elemento em uma lista ordenada.</p>
+          <h3 class="lbl">Como funciona?</h3>
+          <ol class="how">
+            <li>Analisa o elemento central da lista.</li>
+            <li>Compara o valor central com o valor procurado.</li>
+            <li>Descarta a metade que não contém o elemento.</li>
+            <li>Repete até encontrar o valor ou concluir que ele não existe.</li>
+          </ol>
+        </div>
+        <div class="viz" data-algo="binary">
+          <div class="viz-head">
+            <h3 class="lbl">Exemplo visual</h3>
+            <label class="viz-badge">Procurar
+              <select class="select" data-target>
+                <option value="63" selected>63</option>
+                <option value="34">34 (melhor caso)</option>
+                <option value="8">8</option>
+                <option value="40">40 (não está na lista)</option>
+              </select>
+            </label>
+          </div>
+          <div class="track dense"><div class="row"></div><div class="idx"></div><div class="brackets"></div></div>
+          <p class="status" aria-live="polite"></p>
+          <div class="ctrl">
+            <button type="button" class="btn icon" data-act="prev" aria-label="Passo anterior"><svg aria-hidden="true"><use href="#i-prev"/></svg></button>
+            <button type="button" class="btn primary" data-act="next">Próximo passo</button>
+            <button type="button" class="btn icon" data-act="play" aria-label="Reproduzir" aria-pressed="false"><svg aria-hidden="true"><use href="#i-play"/></svg></button>
+            <button type="button" class="btn icon" data-act="reset" aria-label="Reiniciar"><svg aria-hidden="true"><use href="#i-reset"/></svg></button>
+            <span class="count"></span>
+          </div>
+        </div>
+      </div>
+      <div class="eff has-note">
+        <h3 class="lbl eff-lbl">Eficiência</h3>
+        <div class="cx" data-case="best"><span class="cx-case">Melhor caso</span><span class="cx-o">O(1)</span><svg aria-hidden="true"><use href="#c-1"/></svg></div>
+        <div class="cx" data-case="avg"><span class="cx-case">Caso médio</span><span class="cx-o">O(log n)</span><svg aria-hidden="true"><use href="#c-log"/></svg></div>
+        <div class="cx" data-case="worst"><span class="cx-case">Pior caso</span><span class="cx-o">O(log n)</span><svg aria-hidden="true"><use href="#c-log"/></svg></div>
+        <p class="note"><svg aria-hidden="true"><use href="#i-alert"/></svg><span><b>Importante:</b> exige uma lista previamente ordenada.</span></p>
+      </div>
+    </div>
+    <footer class="foot"><span>Estruturas de Dados <b>Busca Binária</b></span><span>Equipe 2</span><span>04/11/2026</span></footer>
+  </div></div>
+</section>
+
+<!-- 04 Busca Binária (prática) -->
+<section class="slide practice" id="busca-binaria-pratica" data-label="Busca Binária: prática" style="--acc:var(--cyan)" aria-labelledby="t-bbp">
+  <div class="stage"><div class="frame">
+    <div class="topbar"><span>04/12</span></div>
+    <div class="body p-body">
+      <h2 class="p-title" id="t-bbp">Busca Binária — Demonstração prática</h2>
+      <div class="p-center">
+        <p class="p-hero">Agora vamos para a prática!</p>
+        <svg class="ide" viewBox="0 0 600 344" role="img" aria-label="Ilustração de um notebook com uma IDE aberta no arquivo BuscaBinaria.java"><rect class="lid" x="78" y="8" width="444" height="292" rx="20"/><rect class="scr" x="94" y="24" width="412" height="260" rx="10"/><circle class="dot3" cx="110" cy="39" r="3.6"/><circle class="dot3" cx="122" cy="39" r="3.6"/><circle class="dot3" cx="134" cy="39" r="3.6"/><rect class="tab" x="148" y="30" width="131" height="18" rx="6"/><text class="fname" x="158" y="43">BuscaBinaria.java</text><rect class="run" x="470" y="30" width="26" height="18" rx="6"/><path class="run-ic" d="M480 34.5v9l7.5-4.5Z"/><line class="sep" x1="94" y1="56" x2="506" y2="56"/><rect class="gutter" x="94" y="56" width="46" height="192"/><text class="ln" x="130" y="81" text-anchor="end">1</text><rect class="tok kw" x="150" y="74.5" width="40" height="7" rx="3.5" style="--d:0ms"/><rect class="tok kw" x="197" y="74.5" width="38" height="7" rx="3.5" style="--d:40ms"/><rect class="tok ty" x="242" y="74.5" width="26" height="7" rx="3.5" style="--d:80ms"/><rect class="tok fn" x="275" y="74.5" width="64" height="7" rx="3.5" style="--d:120ms"/><rect class="tok pl" x="346" y="74.5" width="58" height="7" rx="3.5" style="--d:160ms"/><text class="ln" x="130" y="97" text-anchor="end">2</text><rect class="tok ty" x="170" y="90.5" width="26" height="7" rx="3.5" style="--d:200ms"/><rect class="tok pl" x="203" y="90.5" width="44" height="7" rx="3.5" style="--d:240ms"/><rect class="tok pl" x="254" y="90.5" width="10" height="7" rx="3.5" style="--d:280ms"/><rect class="tok nu" x="271" y="90.5" width="10" height="7" rx="3.5" style="--d:320ms"/><text class="ln" x="130" y="113" text-anchor="end">3</text><rect class="tok ty" x="170" y="106.5" width="26" height="7" rx="3.5" style="--d:360ms"/><rect class="tok pl" x="203" y="106.5" width="30" height="7" rx="3.5" style="--d:400ms"/><rect class="tok pl" x="240" y="106.5" width="10" height="7" rx="3.5" style="--d:440ms"/><rect class="tok pl" x="257" y="106.5" width="54" height="7" rx="3.5" style="--d:480ms"/><text class="ln" x="130" y="129" text-anchor="end">4</text><rect class="tok kw" x="170" y="122.5" width="36" height="7" rx="3.5" style="--d:520ms"/><rect class="tok pl" x="213" y="122.5" width="84" height="7" rx="3.5" style="--d:560ms"/><text class="ln" x="130" y="145" text-anchor="end">5</text><rect class="tok ty" x="190" y="138.5" width="26" height="7" rx="3.5" style="--d:600ms"/><rect class="tok pl" x="223" y="138.5" width="36" height="7" rx="3.5" style="--d:640ms"/><rect class="tok pl" x="266" y="138.5" width="10" height="7" rx="3.5" style="--d:680ms"/><rect class="tok pl" x="283" y="138.5" width="70" height="7" rx="3.5" style="--d:720ms"/><text class="ln" x="130" y="161" text-anchor="end">6</text><rect class="tok kw" x="190" y="154.5" width="14" height="7" rx="3.5" style="--d:760ms"/><rect class="tok pl" x="211" y="154.5" width="88" height="7" rx="3.5" style="--d:800ms"/><text class="ln" x="130" y="177" text-anchor="end">7</text><rect class="tok kw" x="210" y="170.5" width="40" height="7" rx="3.5" style="--d:840ms"/><rect class="tok pl" x="257" y="170.5" width="34" height="7" rx="3.5" style="--d:880ms"/><text class="ln" x="130" y="193" text-anchor="end">8</text><rect class="tok kw" x="190" y="186.5" width="30" height="7" rx="3.5" style="--d:920ms"/><rect class="tok pl" x="227" y="186.5" width="64" height="7" rx="3.5" style="--d:960ms"/><text class="ln" x="130" y="209" text-anchor="end">9</text><rect class="tok pl" x="170" y="202.5" width="8" height="7" rx="3.5" style="--d:1000ms"/><text class="ln" x="130" y="225" text-anchor="end">10</text><rect class="tok kw" x="170" y="218.5" width="40" height="7" rx="3.5" style="--d:1040ms"/><rect class="tok nu" x="217" y="218.5" width="16" height="7" rx="3.5" style="--d:1080ms"/><text class="ln" x="130" y="241" text-anchor="end">11</text><rect class="tok pl" x="150" y="234.5" width="8" height="7" rx="3.5" style="--d:1120ms"/><rect class="cursor" x="303" y="152" width="2" height="12"/><path class="term" d="M94 248h412v26a10 10 0 0 1-10 10H104a10 10 0 0 1-10-10Z"/><circle class="ok" cx="110" cy="266" r="3.5"/><rect class="term-bar" x="122" y="263" width="128" height="6" rx="3"/><path class="base" d="M32 306h536a8 8 0 0 1 8 8v2a22 22 0 0 1-22 22H46a22 22 0 0 1-22-22v-2a8 8 0 0 1 8-8Z"/><rect class="notch" x="262" y="306" width="76" height="7" rx="3.5"/></svg>
+      </div>
+    </div>
+    <footer class="foot"><span>Estruturas de Dados <b>Busca Binária</b></span><span>Equipe 2</span><span>04/11/2026</span></footer>
+  </div></div>
+</section>
+
+<!-- 05 Quick Sort (teoria) -->
+<section class="slide theory" id="quick-sort" data-label="Quick Sort" style="--acc:var(--green)" aria-labelledby="t-qs">
+  <div class="stage"><div class="frame">
+    <div class="topbar"><span>05/12</span></div>
+    <div class="body">
+      <header class="t-head">
+        <h2 class="title t-title" id="t-qs">Quick Sort</h2>
+        <p class="presenter"><span class="avatars"><span class="avatar">J</span><span class="avatar">P</span></span><span>Integrantes: <b>José Igor e Pablo</b></span></p>
+      </header>
+      <div class="t-main">
+        <div>
+          <h3 class="lbl">O que é?</h3>
+          <p class="what">Algoritmo de ordenação baseado na estratégia de divisão e conquista.</p>
+          <h3 class="lbl">Como funciona?</h3>
+          <ol class="how">
+            <li>Escolhe um elemento chamado pivô.</li>
+            <li>Organiza os elementos menores de um lado.</li>
+            <li>Organiza os elementos maiores do outro lado.</li>
+            <li>Aplica o mesmo processo recursivamente nas partições.</li>
+          </ol>
+        </div>
+        <div class="viz" data-algo="quick">
+          <div class="viz-head"><h3 class="lbl">Exemplo visual</h3></div>
+          <div class="track"><div class="row"></div><div class="idx"></div><div class="brackets"></div></div>
+          <p class="status" aria-live="polite"></p>
+          <div class="ctrl">
+            <button type="button" class="btn icon" data-act="prev" aria-label="Passo anterior"><svg aria-hidden="true"><use href="#i-prev"/></svg></button>
+            <button type="button" class="btn primary" data-act="next">Próximo passo</button>
+            <button type="button" class="btn icon" data-act="play" aria-label="Reproduzir" aria-pressed="false"><svg aria-hidden="true"><use href="#i-play"/></svg></button>
+            <button type="button" class="btn icon" data-act="reset" aria-label="Reiniciar"><svg aria-hidden="true"><use href="#i-reset"/></svg></button>
+            <span class="count"></span>
+          </div>
+        </div>
+      </div>
+      <div class="eff">
+        <h3 class="lbl eff-lbl">Eficiência</h3>
+        <div class="cx"><span class="cx-case">Melhor caso</span><span class="cx-o">O(n log n)</span><svg aria-hidden="true"><use href="#c-nlog"/></svg></div>
+        <div class="cx"><span class="cx-case">Caso médio</span><span class="cx-o">O(n log n)</span><svg aria-hidden="true"><use href="#c-nlog"/></svg></div>
+        <div class="cx bad"><span class="cx-case">Pior caso</span><span class="cx-o">O(n²)</span><svg aria-hidden="true"><use href="#c-n2"/></svg></div>
+      </div>
+    </div>
+    <footer class="foot"><span>Estruturas de Dados <b>Quick Sort</b></span><span>Equipe 2</span><span>04/11/2026</span></footer>
+  </div></div>
+</section>
+
+<!-- 06 Quick Sort (prática) -->
+<section class="slide practice" id="quick-sort-pratica" data-label="Quick Sort: prática" style="--acc:var(--green)" aria-labelledby="t-qsp">
+  <div class="stage"><div class="frame">
+    <div class="topbar"><span>06/12</span></div>
+    <div class="body p-body">
+      <h2 class="p-title" id="t-qsp">Quick Sort — Demonstração prática</h2>
+      <div class="p-center">
+        <p class="p-hero">Agora vamos para a prática!</p>
+        <svg class="ide" viewBox="0 0 600 344" role="img" aria-label="Ilustração de um notebook com uma IDE aberta no arquivo QuickSort.java"><rect class="lid" x="78" y="8" width="444" height="292" rx="20"/><rect class="scr" x="94" y="24" width="412" height="260" rx="10"/><circle class="dot3" cx="110" cy="39" r="3.6"/><circle class="dot3" cx="122" cy="39" r="3.6"/><circle class="dot3" cx="134" cy="39" r="3.6"/><rect class="tab" x="148" y="30" width="112" height="18" rx="6"/><text class="fname" x="158" y="43">QuickSort.java</text><rect class="run" x="470" y="30" width="26" height="18" rx="6"/><path class="run-ic" d="M480 34.5v9l7.5-4.5Z"/><line class="sep" x1="94" y1="56" x2="506" y2="56"/><rect class="gutter" x="94" y="56" width="46" height="192"/><text class="ln" x="130" y="81" text-anchor="end">1</text><rect class="tok kw" x="150" y="74.5" width="40" height="7" rx="3.5" style="--d:0ms"/><rect class="tok kw" x="197" y="74.5" width="38" height="7" rx="3.5" style="--d:40ms"/><rect class="tok ty" x="242" y="74.5" width="26" height="7" rx="3.5" style="--d:80ms"/><rect class="tok fn" x="275" y="74.5" width="64" height="7" rx="3.5" style="--d:120ms"/><rect class="tok pl" x="346" y="74.5" width="58" height="7" rx="3.5" style="--d:160ms"/><text class="ln" x="130" y="97" text-anchor="end">2</text><rect class="tok ty" x="170" y="90.5" width="26" height="7" rx="3.5" style="--d:200ms"/><rect class="tok pl" x="203" y="90.5" width="44" height="7" rx="3.5" style="--d:240ms"/><rect class="tok pl" x="254" y="90.5" width="10" height="7" rx="3.5" style="--d:280ms"/><rect class="tok nu" x="271" y="90.5" width="10" height="7" rx="3.5" style="--d:320ms"/><text class="ln" x="130" y="113" text-anchor="end">3</text><rect class="tok ty" x="170" y="106.5" width="26" height="7" rx="3.5" style="--d:360ms"/><rect class="tok pl" x="203" y="106.5" width="30" height="7" rx="3.5" style="--d:400ms"/><rect class="tok pl" x="240" y="106.5" width="10" height="7" rx="3.5" style="--d:440ms"/><rect class="tok pl" x="257" y="106.5" width="54" height="7" rx="3.5" style="--d:480ms"/><text class="ln" x="130" y="129" text-anchor="end">4</text><rect class="tok kw" x="170" y="122.5" width="36" height="7" rx="3.5" style="--d:520ms"/><rect class="tok pl" x="213" y="122.5" width="84" height="7" rx="3.5" style="--d:560ms"/><text class="ln" x="130" y="145" text-anchor="end">5</text><rect class="tok ty" x="190" y="138.5" width="26" height="7" rx="3.5" style="--d:600ms"/><rect class="tok pl" x="223" y="138.5" width="36" height="7" rx="3.5" style="--d:640ms"/><rect class="tok pl" x="266" y="138.5" width="10" height="7" rx="3.5" style="--d:680ms"/><rect class="tok pl" x="283" y="138.5" width="70" height="7" rx="3.5" style="--d:720ms"/><text class="ln" x="130" y="161" text-anchor="end">6</text><rect class="tok kw" x="190" y="154.5" width="14" height="7" rx="3.5" style="--d:760ms"/><rect class="tok pl" x="211" y="154.5" width="88" height="7" rx="3.5" style="--d:800ms"/><text class="ln" x="130" y="177" text-anchor="end">7</text><rect class="tok kw" x="210" y="170.5" width="40" height="7" rx="3.5" style="--d:840ms"/><rect class="tok pl" x="257" y="170.5" width="34" height="7" rx="3.5" style="--d:880ms"/><text class="ln" x="130" y="193" text-anchor="end">8</text><rect class="tok kw" x="190" y="186.5" width="30" height="7" rx="3.5" style="--d:920ms"/><rect class="tok pl" x="227" y="186.5" width="64" height="7" rx="3.5" style="--d:960ms"/><text class="ln" x="130" y="209" text-anchor="end">9</text><rect class="tok pl" x="170" y="202.5" width="8" height="7" rx="3.5" style="--d:1000ms"/><text class="ln" x="130" y="225" text-anchor="end">10</text><rect class="tok kw" x="170" y="218.5" width="40" height="7" rx="3.5" style="--d:1040ms"/><rect class="tok nu" x="217" y="218.5" width="16" height="7" rx="3.5" style="--d:1080ms"/><text class="ln" x="130" y="241" text-anchor="end">11</text><rect class="tok pl" x="150" y="234.5" width="8" height="7" rx="3.5" style="--d:1120ms"/><rect class="cursor" x="303" y="152" width="2" height="12"/><path class="term" d="M94 248h412v26a10 10 0 0 1-10 10H104a10 10 0 0 1-10-10Z"/><circle class="ok" cx="110" cy="266" r="3.5"/><rect class="term-bar" x="122" y="263" width="128" height="6" rx="3"/><path class="base" d="M32 306h536a8 8 0 0 1 8 8v2a22 22 0 0 1-22 22H46a22 22 0 0 1-22-22v-2a8 8 0 0 1 8-8Z"/><rect class="notch" x="262" y="306" width="76" height="7" rx="3.5"/></svg>
+      </div>
+    </div>
+    <footer class="foot"><span>Estruturas de Dados <b>Quick Sort</b></span><span>Equipe 2</span><span>04/11/2026</span></footer>
+  </div></div>
+</section>
+
+<!-- 07 Shell Sort (teoria) -->
+<section class="slide theory" id="shell-sort" data-label="Shell Sort" style="--acc:var(--purple)" aria-labelledby="t-ss">
+  <div class="stage"><div class="frame">
+    <div class="topbar"><span>07/12</span></div>
+    <div class="body">
+      <header class="t-head">
+        <h2 class="title t-title" id="t-ss">Shell Sort</h2>
+        <p class="presenter"><span class="avatars"><span class="avatar">M</span></span><span>Integrante: <b>Matheus</b></span></p>
+      </header>
+      <div class="t-main">
+        <div>
+          <h3 class="lbl">O que é?</h3>
+          <p class="what">Algoritmo de ordenação que utiliza intervalos entre os elementos para organizar a lista.</p>
+          <h3 class="lbl">Como funciona?</h3>
+          <ol class="how">
+            <li>Começa utilizando um intervalo entre posições.</li>
+            <li>Compara elementos separados por esse intervalo.</li>
+            <li>Reduz progressivamente o intervalo.</li>
+            <li>Finaliza com intervalo igual a 1.</li>
+          </ol>
+        </div>
+        <div class="viz" data-algo="shell">
+          <div class="viz-head"><h3 class="lbl">Exemplo visual</h3><p class="viz-badge badge-slot"></p></div>
+          <div class="track has-arcs"><svg class="arcs" viewBox="0 0 1000 100" preserveAspectRatio="none" aria-hidden="true"></svg><div class="row"></div><div class="idx"></div><div class="brackets"></div></div>
+          <p class="status" aria-live="polite"></p>
+          <div class="ctrl">
+            <button type="button" class="btn icon" data-act="prev" aria-label="Passo anterior"><svg aria-hidden="true"><use href="#i-prev"/></svg></button>
+            <button type="button" class="btn primary" data-act="next">Próximo passo</button>
+            <button type="button" class="btn icon" data-act="play" aria-label="Reproduzir" aria-pressed="false"><svg aria-hidden="true"><use href="#i-play"/></svg></button>
+            <button type="button" class="btn icon" data-act="reset" aria-label="Reiniciar"><svg aria-hidden="true"><use href="#i-reset"/></svg></button>
+            <span class="count"></span>
+          </div>
+        </div>
+      </div>
+      <div class="eff">
+        <h3 class="lbl eff-lbl">Eficiência</h3>
+        <div class="cx cx-wide"><span class="cx-o">O desempenho depende da sequência de intervalos utilizada.</span><span class="cx-case">Não existe uma única complexidade aplicável a todas as implementações.</span><svg aria-hidden="true"><use href="#c-band"/></svg></div>
+      </div>
+    </div>
+    <footer class="foot"><span>Estruturas de Dados <b>Shell Sort</b></span><span>Equipe 2</span><span>04/11/2026</span></footer>
+  </div></div>
+</section>
+
+<!-- 08 Shell Sort (prática) -->
+<section class="slide practice" id="shell-sort-pratica" data-label="Shell Sort: prática" style="--acc:var(--purple)" aria-labelledby="t-ssp">
+  <div class="stage"><div class="frame">
+    <div class="topbar"><span>08/12</span></div>
+    <div class="body p-body">
+      <h2 class="p-title" id="t-ssp">Shell Sort — Demonstração prática</h2>
+      <div class="p-center">
+        <p class="p-hero">Agora vamos para a prática!</p>
+        <svg class="ide" viewBox="0 0 600 344" role="img" aria-label="Ilustração de um notebook com uma IDE aberta no arquivo ShellSort.java"><rect class="lid" x="78" y="8" width="444" height="292" rx="20"/><rect class="scr" x="94" y="24" width="412" height="260" rx="10"/><circle class="dot3" cx="110" cy="39" r="3.6"/><circle class="dot3" cx="122" cy="39" r="3.6"/><circle class="dot3" cx="134" cy="39" r="3.6"/><rect class="tab" x="148" y="30" width="112" height="18" rx="6"/><text class="fname" x="158" y="43">ShellSort.java</text><rect class="run" x="470" y="30" width="26" height="18" rx="6"/><path class="run-ic" d="M480 34.5v9l7.5-4.5Z"/><line class="sep" x1="94" y1="56" x2="506" y2="56"/><rect class="gutter" x="94" y="56" width="46" height="192"/><text class="ln" x="130" y="81" text-anchor="end">1</text><rect class="tok kw" x="150" y="74.5" width="40" height="7" rx="3.5" style="--d:0ms"/><rect class="tok kw" x="197" y="74.5" width="38" height="7" rx="3.5" style="--d:40ms"/><rect class="tok ty" x="242" y="74.5" width="26" height="7" rx="3.5" style="--d:80ms"/><rect class="tok fn" x="275" y="74.5" width="64" height="7" rx="3.5" style="--d:120ms"/><rect class="tok pl" x="346" y="74.5" width="58" height="7" rx="3.5" style="--d:160ms"/><text class="ln" x="130" y="97" text-anchor="end">2</text><rect class="tok ty" x="170" y="90.5" width="26" height="7" rx="3.5" style="--d:200ms"/><rect class="tok pl" x="203" y="90.5" width="44" height="7" rx="3.5" style="--d:240ms"/><rect class="tok pl" x="254" y="90.5" width="10" height="7" rx="3.5" style="--d:280ms"/><rect class="tok nu" x="271" y="90.5" width="10" height="7" rx="3.5" style="--d:320ms"/><text class="ln" x="130" y="113" text-anchor="end">3</text><rect class="tok ty" x="170" y="106.5" width="26" height="7" rx="3.5" style="--d:360ms"/><rect class="tok pl" x="203" y="106.5" width="30" height="7" rx="3.5" style="--d:400ms"/><rect class="tok pl" x="240" y="106.5" width="10" height="7" rx="3.5" style="--d:440ms"/><rect class="tok pl" x="257" y="106.5" width="54" height="7" rx="3.5" style="--d:480ms"/><text class="ln" x="130" y="129" text-anchor="end">4</text><rect class="tok kw" x="170" y="122.5" width="36" height="7" rx="3.5" style="--d:520ms"/><rect class="tok pl" x="213" y="122.5" width="84" height="7" rx="3.5" style="--d:560ms"/><text class="ln" x="130" y="145" text-anchor="end">5</text><rect class="tok ty" x="190" y="138.5" width="26" height="7" rx="3.5" style="--d:600ms"/><rect class="tok pl" x="223" y="138.5" width="36" height="7" rx="3.5" style="--d:640ms"/><rect class="tok pl" x="266" y="138.5" width="10" height="7" rx="3.5" style="--d:680ms"/><rect class="tok pl" x="283" y="138.5" width="70" height="7" rx="3.5" style="--d:720ms"/><text class="ln" x="130" y="161" text-anchor="end">6</text><rect class="tok kw" x="190" y="154.5" width="14" height="7" rx="3.5" style="--d:760ms"/><rect class="tok pl" x="211" y="154.5" width="88" height="7" rx="3.5" style="--d:800ms"/><text class="ln" x="130" y="177" text-anchor="end">7</text><rect class="tok kw" x="210" y="170.5" width="40" height="7" rx="3.5" style="--d:840ms"/><rect class="tok pl" x="257" y="170.5" width="34" height="7" rx="3.5" style="--d:880ms"/><text class="ln" x="130" y="193" text-anchor="end">8</text><rect class="tok kw" x="190" y="186.5" width="30" height="7" rx="3.5" style="--d:920ms"/><rect class="tok pl" x="227" y="186.5" width="64" height="7" rx="3.5" style="--d:960ms"/><text class="ln" x="130" y="209" text-anchor="end">9</text><rect class="tok pl" x="170" y="202.5" width="8" height="7" rx="3.5" style="--d:1000ms"/><text class="ln" x="130" y="225" text-anchor="end">10</text><rect class="tok kw" x="170" y="218.5" width="40" height="7" rx="3.5" style="--d:1040ms"/><rect class="tok nu" x="217" y="218.5" width="16" height="7" rx="3.5" style="--d:1080ms"/><text class="ln" x="130" y="241" text-anchor="end">11</text><rect class="tok pl" x="150" y="234.5" width="8" height="7" rx="3.5" style="--d:1120ms"/><rect class="cursor" x="303" y="152" width="2" height="12"/><path class="term" d="M94 248h412v26a10 10 0 0 1-10 10H104a10 10 0 0 1-10-10Z"/><circle class="ok" cx="110" cy="266" r="3.5"/><rect class="term-bar" x="122" y="263" width="128" height="6" rx="3"/><path class="base" d="M32 306h536a8 8 0 0 1 8 8v2a22 22 0 0 1-22 22H46a22 22 0 0 1-22-22v-2a8 8 0 0 1 8-8Z"/><rect class="notch" x="262" y="306" width="76" height="7" rx="3.5"/></svg>
+      </div>
+    </div>
+    <footer class="foot"><span>Estruturas de Dados <b>Shell Sort</b></span><span>Equipe 2</span><span>04/11/2026</span></footer>
+  </div></div>
+</section>
+
+<!-- 09 Selection Sort (teoria) -->
+<section class="slide theory" id="selection-sort" data-label="Selection Sort" style="--acc:var(--pink)" aria-labelledby="t-sel">
+  <div class="stage"><div class="frame">
+    <div class="topbar"><span>09/12</span></div>
+    <div class="body">
+      <header class="t-head">
+        <h2 class="title t-title" id="t-sel">Selection Sort</h2>
+        <p class="presenter"><span class="avatars"><span class="avatar">V</span></span><span>Integrante: <b>Victória</b></span></p>
+      </header>
+      <div class="t-main">
+        <div>
+          <h3 class="lbl">O que é?</h3>
+          <p class="what">Algoritmo de ordenação que seleciona repetidamente o menor elemento da parte ainda não ordenada.</p>
+          <h3 class="lbl">Como funciona?</h3>
+          <ol class="how">
+            <li>Percorre a lista procurando o menor elemento.</li>
+            <li>Coloca o menor elemento na posição correta.</li>
+            <li>Repete o processo com os elementos restantes.</li>
+            <li>Continua até ordenar toda a lista.</li>
+          </ol>
+        </div>
+        <div class="viz" data-algo="selection">
+          <div class="viz-head"><h3 class="lbl">Exemplo visual</h3></div>
+          <div class="track has-arcs"><svg class="arcs" viewBox="0 0 1000 100" preserveAspectRatio="none" aria-hidden="true"></svg><div class="row"></div><div class="idx"></div><div class="brackets"></div></div>
+          <p class="status" aria-live="polite"></p>
+          <div class="ctrl">
+            <button type="button" class="btn icon" data-act="prev" aria-label="Passo anterior"><svg aria-hidden="true"><use href="#i-prev"/></svg></button>
+            <button type="button" class="btn primary" data-act="next">Próximo passo</button>
+            <button type="button" class="btn icon" data-act="play" aria-label="Reproduzir" aria-pressed="false"><svg aria-hidden="true"><use href="#i-play"/></svg></button>
+            <button type="button" class="btn icon" data-act="reset" aria-label="Reiniciar"><svg aria-hidden="true"><use href="#i-reset"/></svg></button>
+            <span class="count"></span>
+          </div>
+        </div>
+      </div>
+      <div class="eff">
+        <h3 class="lbl eff-lbl">Eficiência</h3>
+        <div class="cx bad"><span class="cx-case">Melhor caso</span><span class="cx-o">O(n²)</span><svg aria-hidden="true"><use href="#c-n2"/></svg></div>
+        <div class="cx bad"><span class="cx-case">Caso médio</span><span class="cx-o">O(n²)</span><svg aria-hidden="true"><use href="#c-n2"/></svg></div>
+        <div class="cx bad"><span class="cx-case">Pior caso</span><span class="cx-o">O(n²)</span><svg aria-hidden="true"><use href="#c-n2"/></svg></div>
+      </div>
+    </div>
+    <footer class="foot"><span>Estruturas de Dados <b>Selection Sort</b></span><span>Equipe 2</span><span>04/11/2026</span></footer>
+  </div></div>
+</section>
+
+<!-- 10 Selection Sort (prática) -->
+<section class="slide practice" id="selection-sort-pratica" data-label="Selection Sort: prática" style="--acc:var(--pink)" aria-labelledby="t-selp">
+  <div class="stage"><div class="frame">
+    <div class="topbar"><span>10/12</span></div>
+    <div class="body p-body">
+      <h2 class="p-title" id="t-selp">Selection Sort — Demonstração prática</h2>
+      <div class="p-center">
+        <p class="p-hero">Agora vamos para a prática!</p>
+        <svg class="ide" viewBox="0 0 600 344" role="img" aria-label="Ilustração de um notebook com uma IDE aberta no arquivo SelectionSort.java"><rect class="lid" x="78" y="8" width="444" height="292" rx="20"/><rect class="scr" x="94" y="24" width="412" height="260" rx="10"/><circle class="dot3" cx="110" cy="39" r="3.6"/><circle class="dot3" cx="122" cy="39" r="3.6"/><circle class="dot3" cx="134" cy="39" r="3.6"/><rect class="tab" x="148" y="30" width="137" height="18" rx="6"/><text class="fname" x="158" y="43">SelectionSort.java</text><rect class="run" x="470" y="30" width="26" height="18" rx="6"/><path class="run-ic" d="M480 34.5v9l7.5-4.5Z"/><line class="sep" x1="94" y1="56" x2="506" y2="56"/><rect class="gutter" x="94" y="56" width="46" height="192"/><text class="ln" x="130" y="81" text-anchor="end">1</text><rect class="tok kw" x="150" y="74.5" width="40" height="7" rx="3.5" style="--d:0ms"/><rect class="tok kw" x="197" y="74.5" width="38" height="7" rx="3.5" style="--d:40ms"/><rect class="tok ty" x="242" y="74.5" width="26" height="7" rx="3.5" style="--d:80ms"/><rect class="tok fn" x="275" y="74.5" width="64" height="7" rx="3.5" style="--d:120ms"/><rect class="tok pl" x="346" y="74.5" width="58" height="7" rx="3.5" style="--d:160ms"/><text class="ln" x="130" y="97" text-anchor="end">2</text><rect class="tok ty" x="170" y="90.5" width="26" height="7" rx="3.5" style="--d:200ms"/><rect class="tok pl" x="203" y="90.5" width="44" height="7" rx="3.5" style="--d:240ms"/><rect class="tok pl" x="254" y="90.5" width="10" height="7" rx="3.5" style="--d:280ms"/><rect class="tok nu" x="271" y="90.5" width="10" height="7" rx="3.5" style="--d:320ms"/><text class="ln" x="130" y="113" text-anchor="end">3</text><rect class="tok ty" x="170" y="106.5" width="26" height="7" rx="3.5" style="--d:360ms"/><rect class="tok pl" x="203" y="106.5" width="30" height="7" rx="3.5" style="--d:400ms"/><rect class="tok pl" x="240" y="106.5" width="10" height="7" rx="3.5" style="--d:440ms"/><rect class="tok pl" x="257" y="106.5" width="54" height="7" rx="3.5" style="--d:480ms"/><text class="ln" x="130" y="129" text-anchor="end">4</text><rect class="tok kw" x="170" y="122.5" width="36" height="7" rx="3.5" style="--d:520ms"/><rect class="tok pl" x="213" y="122.5" width="84" height="7" rx="3.5" style="--d:560ms"/><text class="ln" x="130" y="145" text-anchor="end">5</text><rect class="tok ty" x="190" y="138.5" width="26" height="7" rx="3.5" style="--d:600ms"/><rect class="tok pl" x="223" y="138.5" width="36" height="7" rx="3.5" style="--d:640ms"/><rect class="tok pl" x="266" y="138.5" width="10" height="7" rx="3.5" style="--d:680ms"/><rect class="tok pl" x="283" y="138.5" width="70" height="7" rx="3.5" style="--d:720ms"/><text class="ln" x="130" y="161" text-anchor="end">6</text><rect class="tok kw" x="190" y="154.5" width="14" height="7" rx="3.5" style="--d:760ms"/><rect class="tok pl" x="211" y="154.5" width="88" height="7" rx="3.5" style="--d:800ms"/><text class="ln" x="130" y="177" text-anchor="end">7</text><rect class="tok kw" x="210" y="170.5" width="40" height="7" rx="3.5" style="--d:840ms"/><rect class="tok pl" x="257" y="170.5" width="34" height="7" rx="3.5" style="--d:880ms"/><text class="ln" x="130" y="193" text-anchor="end">8</text><rect class="tok kw" x="190" y="186.5" width="30" height="7" rx="3.5" style="--d:920ms"/><rect class="tok pl" x="227" y="186.5" width="64" height="7" rx="3.5" style="--d:960ms"/><text class="ln" x="130" y="209" text-anchor="end">9</text><rect class="tok pl" x="170" y="202.5" width="8" height="7" rx="3.5" style="--d:1000ms"/><text class="ln" x="130" y="225" text-anchor="end">10</text><rect class="tok kw" x="170" y="218.5" width="40" height="7" rx="3.5" style="--d:1040ms"/><rect class="tok nu" x="217" y="218.5" width="16" height="7" rx="3.5" style="--d:1080ms"/><text class="ln" x="130" y="241" text-anchor="end">11</text><rect class="tok pl" x="150" y="234.5" width="8" height="7" rx="3.5" style="--d:1120ms"/><rect class="cursor" x="303" y="152" width="2" height="12"/><path class="term" d="M94 248h412v26a10 10 0 0 1-10 10H104a10 10 0 0 1-10-10Z"/><circle class="ok" cx="110" cy="266" r="3.5"/><rect class="term-bar" x="122" y="263" width="128" height="6" rx="3"/><path class="base" d="M32 306h536a8 8 0 0 1 8 8v2a22 22 0 0 1-22 22H46a22 22 0 0 1-22-22v-2a8 8 0 0 1 8-8Z"/><rect class="notch" x="262" y="306" width="76" height="7" rx="3.5"/></svg>
+      </div>
+    </div>
+    <footer class="foot"><span>Estruturas de Dados <b>Selection Sort</b></span><span>Equipe 2</span><span>04/11/2026</span></footer>
+  </div></div>
+</section>
+
+<!-- 11 Comparativo -->
+<section class="slide" id="comparativo" data-label="Comparativo" style="--acc:var(--cyan)" aria-labelledby="t-cmp">
+  <div class="stage"><div class="frame">
+    <div class="topbar"><span>11/12</span></div>
+    <div class="body">
+      <header class="intro-head">
+        <h2 class="title" id="t-cmp">Comparativo</h2>
+        <p class="lead">A complexidade mostra quanto o esforço cresce quando a lista aumenta.</p>
+      </header>
+      <div class="cmp">
+        <div class="cmp-scroll"><table class="cmp-table">
+          <thead><tr><th scope="col">Algoritmo</th><th scope="col">Melhor caso</th><th scope="col">Caso médio</th><th scope="col">Pior caso</th></tr></thead>
+          <tbody>
+            <tr style="--acc:var(--cyan)"><th scope="row"><i></i>Busca Binária</th><td>O(1)</td><td>O(log n)</td><td>O(log n)</td></tr>
+            <tr style="--acc:var(--green)"><th scope="row"><i></i>Quick Sort</th><td>O(n log n)</td><td>O(n log n)</td><td class="bad">O(n²)</td></tr>
+            <tr style="--acc:var(--purple)"><th scope="row"><i></i>Shell Sort</th><td colspan="3" class="dep">Depende da sequência de intervalos</td></tr>
+            <tr style="--acc:var(--pink)"><th scope="row"><i></i>Selection Sort</th><td class="bad">O(n²)</td><td class="bad">O(n²)</td><td class="bad">O(n²)</td></tr>
+          </tbody>
+        </table></div>
+        <div class="grow">
+          <h3>E se a lista crescer?</h3>
+          <label class="grow-n">Elementos na lista <output id="n-out">1.000</output><input id="n-range" type="range" min="1" max="6" step="1" value="3" aria-label="Quantidade de elementos na lista"></label>
+          <div class="bars">
+            <div class="bar" data-grow="log" style="--acc:var(--cyan)"><span class="bar-name">O(log n)<small>Busca Binária, pior caso</small></span><span class="bar-track"><span class="bar-fill"></span></span><span class="bar-val"></span></div>
+            <div class="bar" data-grow="nlog" style="--acc:var(--green)"><span class="bar-name">O(n log n)<small>Quick Sort, caso médio</small></span><span class="bar-track"><span class="bar-fill"></span></span><span class="bar-val"></span></div>
+            <div class="bar" data-grow="n2" style="--acc:var(--pink)"><span class="bar-name">O(n²)<small>Selection Sort</small></span><span class="bar-track"><span class="bar-fill"></span></span><span class="bar-val"></span></div>
+          </div>
+          <p class="grow-foot">Ordem de grandeza do número de operações, em escala logarítmica.</p>
+        </div>
+      </div>
+    </div>
+    <footer class="foot"><span>Estruturas de Dados <b>Comparativo</b></span><span>Equipe 2</span><span>04/11/2026</span></footer>
+  </div></div>
+</section>
+
+<!-- 12 Encerramento -->
+<section class="slide cover" id="encerramento" data-label="Encerramento" style="--acc:var(--cyan)" aria-labelledby="t-end">
+  <div class="stage">
+    <canvas class="sphere" aria-hidden="true"></canvas>
+    <div class="frame">
+      <div class="topbar"><span>12/12</span></div>
+      <div class="body cover-body">
+        <h2 class="display" id="t-end">Obrigado!</h2>
+        <p class="cover-sub">Perguntas?</p>
+        <ul class="team">
+          <li style="--acc:#ffffff"><i></i><b>Marcos</b><span>Abertura, introdução e encerramento</span></li>
+          <li style="--acc:var(--cyan)"><i></i><b>Wesley</b><span>Busca Binária</span></li>
+          <li style="--acc:var(--green)"><i></i><b>José Igor e Pablo</b><span>Quick Sort</span></li>
+          <li style="--acc:var(--purple)"><i></i><b>Matheus</b><span>Shell Sort</span></li>
+          <li style="--acc:var(--pink)"><i></i><b>Victória</b><span>Selection Sort</span></li>
+        </ul>
+      </div>
+      <footer class="foot"><span>Estruturas de Dados</span><span>Equipe 2</span><span>04/11/2026</span></footer>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<script src="script.js"></script>
+</body>
+</html>
